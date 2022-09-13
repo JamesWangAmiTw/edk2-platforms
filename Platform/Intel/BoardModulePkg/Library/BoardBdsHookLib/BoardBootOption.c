@@ -461,12 +461,17 @@ RegisterStaticHotkey (
     RegisterBootOptionHotkey ((UINT16) mSetupOptionNumber, &F2.Key, TRUE);
   }
 
-  F7.Key.ScanCode    = SCAN_F7;
-  F7.Key.UnicodeChar = CHAR_NULL;
-  F7.KeyState.KeyShiftState = EFI_SHIFT_STATE_VALID;
-  F7.KeyState.KeyToggleState = 0;
-  mBootMenuBoot  = !EnterSetup;
-  RegisterBootOptionHotkey ((UINT16) mBootMenuOptionNumber, &F7.Key, mBootMenuBoot);
+  //
+  // Register F7 only when the mBootMenuOptionNumber is valid
+  //
+  if (mBootMenuOptionNumber != LoadOptionNumberUnassigned) {
+    F7.Key.ScanCode    = SCAN_F7;
+    F7.Key.UnicodeChar = CHAR_NULL;
+    F7.KeyState.KeyShiftState = EFI_SHIFT_STATE_VALID;
+    F7.KeyState.KeyToggleState = 0;
+    mBootMenuBoot  = !EnterSetup;
+    RegisterBootOptionHotkey ((UINT16) mBootMenuOptionNumber, &F7.Key, mBootMenuBoot);
+  }
 
 }
 
